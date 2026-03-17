@@ -6,7 +6,8 @@ received packets.
 import argparse
 import math
 import urllib
-
+import os
+import subprocess
 import urllib3
 from pythonosc.dispatcher import Dispatcher
 from pythonosc import osc_server
@@ -31,12 +32,16 @@ def owo_mode(unused_addr, *args):
     print(f"OWO MODE: {ene}")
     if ene == True:
         urllib3.request('POST', 'http://192.168.1.221:9000/hooks/busy-red')
-
+        print("OwO Protocol Starting Intiface")
+        subprocess.Popen("C:/Users/lunan/AppData/Roaming/IntifaceCentral/intiface_central.exe")
+        print("OwO Protocol Starting OSC_GO_BRR")
+        subprocess.Popen("C:/Users/lunan/AppData/Local/Programs/OscGoesBrrr/OscGoesBrrr.exe")
 
 def led_handler(unused_addr, *args):
     led_value = args[0] if args else 0
-    print(f"LED state: {led_value}")
-    if led_value == 1:
+    if led_value == 0:
+        return
+    elif led_value == 1:
         print("LED GREEN")
         urllib3.request( 'POST', 'http://192.168.1.221:9000/hooks/busy-green')
     elif led_value == 2:
